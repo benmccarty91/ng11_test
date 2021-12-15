@@ -11,8 +11,8 @@ const routes: Routes = [
   },
   {
     path: 'bentest',
-    // loadChildren: () => _asyncModuleService.loadModuleWithNpmFallback('bentestLib', import('bentest-lib'))
-    loadChildren: () => import('bentest-lib').then(m => m.BentestLibModule)
+    loadChildren: () => _asyncModuleService.loadModuleWithNpmFallback('BentestLibModule', import('bentest-lib'))
+    // loadChildren: () => import('bentest-lib').then(m => m.BentestLibModule)
   }
 ];
 

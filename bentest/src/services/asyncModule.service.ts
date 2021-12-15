@@ -7,8 +7,8 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 export class AsyncModuleService {
 
   private dependencies: { [key: string]: any } = {
-    '@angular/core': import('@angular/core'),
-    '@angular/router': import('@angular/router'),
+    '@angular/core': require('@angular/core'),
+    '@angular/router': require('@angular/router'),
   }
 
   constructor(
@@ -18,7 +18,7 @@ export class AsyncModuleService {
 
   public loadModuleWithNpmFallback(cdnModule: string, npmLib: any): Observable<any> {
     return timer(2000).pipe(
-      switchMap(() => this.loadModule(cdnModule, 'MainModule')),
+      switchMap(() => this.loadModule(cdnModule, "BentestLibModule")),
       map(x => x.moduleType),
       catchError(err => this.handleProcessingErrAndUseNpmFallback(err, npmLib, cdnModule))
     );
@@ -78,14 +78,12 @@ export class AsyncModuleService {
     return from(import(url));
   }
 
-  private processAsyncModule = async (moduleName: string, moduleRoute: string, moduleToBeProcessed: ModuleToBeProcessed): Promise<any> => {
+  private processAsyncModule = (moduleName: string, moduleRoute: string, moduleToBeProcessed: ModuleToBeProcessed): any => {
     console.log('CDN: begin processing code...');
     const code = moduleToBeProcessed.code;
     const exports: any = {};
 
-    (window as any)['ng']['core'] = require('@angular/core');
-    (window as any)['ng']['router'] = require('@angular/router');
-    (window.require as any) = (dependency: string) => {
+    const require = (dependency: string) => {
       let dep = this.dependencies[dependency];
 
       if (!dep)
@@ -95,8 +93,8 @@ export class AsyncModuleService {
 
       return dep;
     }; // shim the `require()` function
-    const benval = eval;
-    benval(code); // execute javascript.  this will populate the exports object above.
+
+    eval(code); // execute javascript.  this will populate the exports object above.
 
     console.log('CDN: eval successful, attempting to run through angular compiler');
 
