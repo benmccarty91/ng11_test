@@ -1,0 +1,47 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "bentest-lib": {
+      "projectType": "library",
+      "root": "projects/bentest-lib",
+      "sourceRoot": "projects/bentest-lib/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/bentest-lib/tsconfig.lib.json",
+            "project": "projects/bentest-lib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/bentest-lib/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/bentest-lib/src/test.ts",
+            "tsConfig": "projects/bentest-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/bentest-lib/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/bentest-lib/tsconfig.lib.json",
+              "projects/bentest-lib/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }},
+  "defaultProject": "bentest-lib"
+}
