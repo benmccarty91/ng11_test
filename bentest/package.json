@@ -19,7 +19,7 @@
     "@angular/platform-browser": "~11.2.14",
     "@angular/platform-browser-dynamic": "~11.2.14",
     "@angular/router": "~11.2.14",
-    "bentest-lib": "file:../bentest-lib/dist/bentest-lib/bentest-lib-0.0.2.tgz",
+    "bentest-lib": "file:../bentest-lib/dist/bentest-lib/bentest-lib-0.0.3.tgz",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
