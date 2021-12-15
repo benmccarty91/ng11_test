@@ -82,7 +82,7 @@ export class AsyncModuleService {
     console.log('CDN: begin processing code...');
     const code = moduleToBeProcessed.code;
     const exports: any = {};
-
+    const module: any = {};
     const require = (dependency: string) => {
       let dep = this.dependencies[dependency];
 
@@ -93,6 +93,7 @@ export class AsyncModuleService {
 
       return dep;
     }; // shim the `require()` function
+
 
     eval(code); // execute javascript.  this will populate the exports object above.
 
