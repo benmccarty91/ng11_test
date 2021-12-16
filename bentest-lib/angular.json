@@ -28,18 +28,6 @@
             "tsConfig": "projects/bentest-lib/tsconfig.spec.json",
             "karmaConfig": "projects/bentest-lib/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/bentest-lib/tsconfig.lib.json",
-              "projects/bentest-lib/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     }},
