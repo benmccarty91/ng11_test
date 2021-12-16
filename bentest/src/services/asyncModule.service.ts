@@ -1,4 +1,4 @@
-import { Compiler, Injectable } from "@angular/core";
+import { Compiler, createNgModuleRef, Injectable, Injector } from "@angular/core";
 import { HttpClient, HttpResponse } from '@angular/common/http'
 import { from, Observable, timer } from "rxjs";
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -13,13 +13,14 @@ export class AsyncModuleService {
 
   constructor(
     private httpClient: HttpClient,
-    private compiler: Compiler
+    private compiler: Compiler,
+    private injector: Injector
   ) { }
 
   public loadModuleWithNpmFallback(cdnModule: string, npmLib: any): Observable<any> {
     return timer(2000).pipe(
       switchMap(() => this.loadModule(cdnModule, "BentestLibModule")),
-      map(x => x.moduleType),
+      map(x => x),
       catchError(err => this.handleProcessingErrAndUseNpmFallback(err, npmLib, cdnModule))
     );
   }
@@ -94,16 +95,12 @@ export class AsyncModuleService {
       return dep;
     }; // shim the `require()` function
 
-
     eval(code); // execute javascript.  this will populate the exports object above.
 
     console.log('CDN: eval successful, attempting to run through angular compiler');
 
     // run the module through the ng compiler to get module + component factories
-    const modCompFactories = this.compiler.compileModuleAndAllComponentsSync(exports[moduleName]);
-
-    console.log('CDN: module compiled without issues, returning...');
-    return modCompFactories.ngModuleFactory;
+    return exports[moduleName];
   }
 }
 
